@@ -1,0 +1,129 @@
+# P2 Compact View - Cursor Rules
+
+## Project Overview
+This is a Tampermonkey userscript project that automatically switches P2 sites (WordPress-based) to compact view mode for better readability and productivity.
+
+## File Structure
+- `p2-compact-view.user.js` - Main Tampermonkey script
+- `source/` - P2 site source files for reference
+- `examples/` - Usage examples and configurations
+- `reference/` - Documentation and technical references
+- `README.md` - Project documentation
+
+## Coding Standards
+
+### JavaScript
+- Use ES6+ features (const, let, arrow functions, classes)
+- Follow strict mode (`'use strict';`)
+- Use meaningful variable and function names
+- Add JSDoc comments for public methods
+- Use template literals for string interpolation
+- Prefer const over let when variables won't be reassigned
+
+### Tampermonkey Script Structure
+- Always include proper metadata header with @name, @namespace, @version, @description
+- Use @grant for required permissions
+- Use @run-at document-end for DOM manipulation
+- Use @match for URL patterns
+- Wrap main code in IIFE (Immediately Invoked Function Expression)
+
+### CSS Classes and Selectors
+- Use BEM methodology for CSS class naming
+- Document all CSS selectors used in the script
+- Keep selectors specific but not overly complex
+- Use data attributes when possible for better maintainability
+
+### Error Handling
+- Include retry logic for DOM elements that may not be immediately available
+- Log errors and important events to console for debugging
+- Provide fallback options when automatic switching fails
+- Use try-catch blocks for critical operations
+
+### User Experience
+- Provide visual feedback for user actions
+- Include menu commands for manual control
+- Remember user preferences across sessions
+- Support both automatic and manual modes
+
+## Development Guidelines
+
+### Adding New Features
+1. Update the CONFIG object with new settings
+2. Add appropriate error handling
+3. Include console logging for debugging
+4. Update documentation
+5. Test on multiple P2 sites
+
+### Debugging
+- Use console.log with "P2 Compact View:" prefix
+- Expose debugging methods to global scope
+- Include retry counters and max retry limits
+- Log element detection status
+
+### Testing
+- Test on different P2 site domains
+- Test with slow-loading pages
+- Test SPA navigation
+- Test with different browser extensions
+
+### Documentation
+- Keep README.md up to date
+- Document all public methods
+- Include usage examples
+- Provide troubleshooting guides
+
+## Common Patterns
+
+### Element Detection
+```javascript
+const element = document.querySelector(selector);
+if (element) {
+    // Element found, proceed
+} else {
+    // Element not found, retry or fallback
+}
+```
+
+### Retry Logic
+```javascript
+if (this.retryCount < CONFIG.DELAYS.MAX_RETRIES) {
+    this.retryCount++;
+    setTimeout(() => {
+        this.tryOperation();
+    }, CONFIG.DELAYS.RETRY_INTERVAL);
+}
+```
+
+### Event Dispatching
+```javascript
+document.dispatchEvent(new CustomEvent('eventName', {
+    detail: { key: 'value' }
+}));
+```
+
+### Storage Management
+```javascript
+// Save preference
+GM_setValue(key, value);
+
+// Load preference with default
+const value = GM_getValue(key, defaultValue);
+```
+
+## Browser Compatibility
+- Support modern browsers (Chrome, Firefox, Safari, Edge)
+- Use standard DOM APIs
+- Avoid browser-specific features
+- Test with Tampermonkey extension
+
+## Performance Considerations
+- Minimize DOM queries
+- Use efficient selectors
+- Avoid unnecessary re-renders
+- Implement proper cleanup
+
+## Security
+- Validate all user inputs
+- Sanitize data before storage
+- Use content security policy when possible
+- Avoid eval() and similar dangerous functions 
